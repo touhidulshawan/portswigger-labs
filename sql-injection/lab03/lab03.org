@@ -11,23 +11,20 @@ use sql injection ~UNION~ attack to determine the number of columns returned by 
 ~UNION~ is used to combine the result-set of two or more ~SELECT~ statements
 
 + users
-+-----+-----+-----+-----+-----+
-|  username  |   password     |
-+-----+-----+-----+-----+-----+
-|  admin     |   admin        |
-+-----+-----+-----+-----+-----+
-|  smith     |   pass12345    |
-+-----+-----+-----+-----+-----+
 
+| username | password  |
+|----------+-----------|
+| admin    | admin     |
+| smith    | pass12345 |
+|----------+-----------|
 
 + product
-+------------+------------+
-|  itemName  |    price   |
-+------------+------------+
-|  pen       |    10      |
-+------------+------------+
-|  paper     |    20      |
-+------------+------------+
+
+| itemName | price |
+|----------+-------|
+| pen      |    10 |
+| paper    |    20 |
+|----------+-------|
 
 ** Sample Query
 #+begin_src sql
