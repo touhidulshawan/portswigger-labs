@@ -33,11 +33,9 @@ SELECT username, password FROM users
 
 ** output
 
-+-----+-----+-----+-----+-----+
-|  admin     |   admin        |
-+-----+-----+-----+-----+-----+
-|  smith     |   pass12345    |
-+-----+-----+-----+-----+-----+
+| admin | admin     |
+| smith | pass12345 |
+|-------+-----------|
 
 ** Query with UNION
 #+begin_src sql
@@ -46,15 +44,11 @@ SELECT username, password FROM users UNION SELECT itemName,price FROM product
 
 ** output
 
-+-----+-----+-----+-----+-----+
-|  admin     |   admin        |
-+-----+-----+-----+-----+-----+
-|  smith     |   pass12345    |
-+-----+-----+-----+-----+-----+
-|   pen      |    10          |
-+-----+-----+-----+-----+-----+
-|   paper    |    20          |
-+-----+-----+-----+-----+-----+
+| admin |     admin |
+| smith | pass12345 |
+| pen   |        10 |
+| paper |        20 |
+|-------+-----------|
 
 ** Some rule for UNION to work
 
