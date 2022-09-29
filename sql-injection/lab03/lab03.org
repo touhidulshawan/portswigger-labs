@@ -35,7 +35,6 @@ SELECT username, password FROM users
 
 | admin | admin     |
 | smith | pass12345 |
-|-------+-----------|
 
 ** Query with UNION
 #+begin_src sql
@@ -48,7 +47,6 @@ SELECT username, password FROM users UNION SELECT itemName,price FROM product
 | smith | pass12345 |
 | pen   |        10 |
 | paper |        20 |
-|-------+-----------|
 
 ** Some rule for UNION to work
 
