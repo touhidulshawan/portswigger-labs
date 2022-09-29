@@ -36,7 +36,7 @@ Now find out which column support string value
 #+end_src
 : success
 
-Now find out similar like this line ~Make the database retrieve the string: 'FJFnqK'~
+Now find out similar like this line Make the database retrieve the string: 'FJFnqK'
 
 Now replace that string value with abc
 #+begin_src sql
