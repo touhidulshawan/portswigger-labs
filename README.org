@@ -1,13 +1,5 @@
 * Mind maps of labs to solve of all [[https://portswigger.net/web-security/all-labs][Portswigger Labs]]
 
-** TABLE OF CONTENTS
-*** SQL Injection
-[[file:sql-injection/lab01/lab01.org][Lab-01]]
-[[file:sql-injection/lab02/lab02.org][Lab-02]]
-[[file:sql-injection/lab03/lab03.org][Lab-03]]
-[[file:sql-injection/lab04/lab04.org][Lab-04]]
-[[file:sql-injection/lab05/lab05.org][Lab-05]]
-[[file:sql-injection/lab06/lab06.org][Lab-06]]
-[[file:sql-injection/lab07/lab07.org][Lab-07]]
-[[file:sql-injection/lab08/lab08.org][Lab-08]]
-[[file:sql-injection/lab09/lab09.org][Lab-09]]
+** [[./sql-injection][SQL Injection]]
+** [[./xss][XSS]]
+** [[./information-disclosure][Information Disclosure]]
