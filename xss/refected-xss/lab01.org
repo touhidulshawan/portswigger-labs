@@ -1,5 +1,11 @@
 * Reflected XSS into HTML context with nothing encoded
 
+* TABLE OF CONTENTS :toc:
+- [[#reflected-xss-into-html-context-with-nothing-encoded][Reflected XSS into HTML context with nothing encoded]]
+  - [[#description][Description]]
+  - [[#recon][Recon]]
+  - [[#solution][Solution]]
+
 ** Description
 #+begin_quote
 This lab contains a simple reflected cross site scripting or XSS vulnerability in the ~search~ functionality
@@ -74,4 +80,4 @@ Content-Length: 4886
   #+end_src
 
 *** Result
-[[img:./lab01-1.png][Final Result]]
+[[./lab01-1.png]]
