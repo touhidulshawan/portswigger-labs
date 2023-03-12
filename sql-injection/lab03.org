@@ -1,5 +1,18 @@
 #+title: SQL injection UNION attack, determining the number of columns returned by the query
 
+* TABLE OF CONTENTS :toc:
+- [[#about][About]]
+  - [[#end-goal][End Goal]]
+- [[#union-in-sql][UNION in sql]]
+  - [[#sample-query][Sample Query]]
+  - [[#output][output]]
+  - [[#query-with-union][Query with UNION]]
+  - [[#output-1][output]]
+  - [[#some-rule-for-union-to-work][Some rule for UNION to work]]
+- [[#figure-out][Figure out]]
+  - [[#way-1][way 1]]
+  - [[#way-2][way 2]]
+- [[#solution][Solution]]
 
 * About
 sql injection into product ~category~ filter

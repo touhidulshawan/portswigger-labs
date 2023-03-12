@@ -2,6 +2,14 @@
 #+description: Mindmap to solve this lab
 #+author: Touhidul Shawan
 
+* TABLE OF CONTENTS :toc:
+- [[#solution][Solution]]
+  - [[#sql-injection-on][SQL Injection on]]
+  - [[#query][Query]]
+  - [[#end-goal][End Goal]]
+- [[#steps][Steps]]
+  - [[#inject-query][Inject Query]]
+
 * Solution
 
 ** SQL Injection on
