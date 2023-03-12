@@ -1,5 +1,5 @@
 * Mind maps of labs to solve of all [[https://portswigger.net/web-security/all-labs][Portswigger Labs]]
 
-** [[./sql-injection][SQL Injection]]
-** [[./xss][XSS]]
-** [[./information-disclosure][Information Disclosure]]
+1. [[./sql-injection][Sql Injection]]
+2. [[./xss][XSS]]
+3. [[./information-disclosure][Information Disclosure]]
