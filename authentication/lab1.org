@@ -1,6 +1,14 @@
 #+title: Username enumeration via different responses
 #+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
 
+* Table of Contents :toc:
+- [[#lab-contains][Lab contains]]
+- [[#end-goal][End Goal]]
+- [[#download-given-wordlist-username--password-files][Download given wordlist ~username~ & ~password~ files]]
+- [[#enumerate-username-first][Enumerate username first]]
+- [[#enumerate-password-for-found-username][Enumerate password for found username]]
+- [[#solve-the-lab][Solve the Lab]]
+
 * Lab contains
 + Vulnerable to username enumeration and paassword brute-force attack
 + Wordlist for username and password
