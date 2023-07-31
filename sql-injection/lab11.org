@@ -84,7 +84,7 @@ CLOSED: [2023-07-31 Mon 16:04]
 #+begin_src sql
   SELECT trackingId FROM tracking.table WHERE trackingId = 'T9IjXtGqVbhsOlr3' AND (SELECT SUBSTRING(password, 1,1) FROM users WHERE username='administrator')='a'--' 
 #+end_src
-+ /check if the first character of password of administrator user is 'a'/
++ check if the first character of password of administrator user is 'a'
 + if first character of password is a then move to second position of password. We have to continue this process until 20 character. That's the length of password.
 + we can change the character position and letters until we find out the password
 
