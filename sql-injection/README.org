@@ -17,3 +17,9 @@
 16. [[./lab16.org][Blind SQL injection with out-of-band interaction]]
 17. [[./lab17.org][Blind SQL injection with out-of-band data exfiltration]]
 18. [[./lab18.org][SQL injection with filter bypass via XML encoding]]
+
+/Note: I am not ready to learn blind sql injection attack yet. so from lab no 12 to 18 will be solved later/
+
+** Task
+- [ ] Learn Blind SQL injectin attack in depth
+- [ ] Solve Lab 12 - 18

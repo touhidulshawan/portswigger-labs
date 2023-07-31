@@ -1,0 +1,9 @@
+#+title: Blind SQL injection with conditional errors
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+
+* Lab contain
++ Blind SQL injection Vulnerability
++ TrackingID in cookie
++ Has ~users~ table with column ~username~ & ~password~
+* End Goal
++ Find the password of ~administrator~ and login into the sytem
