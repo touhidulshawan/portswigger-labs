@@ -21,7 +21,7 @@ CLOSED: [2023-07-31 Mon 19:33]
 + Go to login page of the application
 + Login with test credential like username = ~test~ , password = ~test~
 + Observe the behavior of the application
-+ Like [[./lab1.org][Lab 1]] this application give generic error-message: ~Invalid username or password~
++ Unlike [[./lab1.org][Lab 1]] this application give generic error-message: ~Invalid username or password~
 + Now send the login request in intruder and brute-force with ~username~ payload.
   #+begin_src shell
     POST /login HTTP/2
