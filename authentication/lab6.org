@@ -1,0 +1,57 @@
+#+title: Broken brute-force protection, IP block
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+
+* Table of Contents :toc:
+- [[#lab-contains][Lab Contains]]
+  - [[#test-credential][Test Credential]]
+  - [[#victims-username][Victim's username]]
+- [[#end-goal][End Goal]]
+- [[#access-lab][Access lab]]
+- [[#attack-victim-account][Attack victim account]]
+  - [[#now-what-to-do][Now What to do?]]
+- [[#result][Result]]
+- [[#solve-the-lab][Solve the lab]]
+
+* Lab Contains
+- Vulnerable to logic flaw in its ~password~ brute-force protection.
+** Test Credential
+- username = wiener
+- password = peter
+** Victim's username
+- username = carlos
+* End Goal
+- Brute-Force the account with given candidate password list
+- Access carlos account
+
+* Access lab
+- Access lab and observe the login functionality.
+- Login with given test account and observe the application
+
+* Attack victim account
+- It let me try to attempt to login 3 times. If 3 attempt fails it block the IP
+- Message: ~You have made too many incorrect login attempts. Please try again in 1 minute(s).~
+- But it reset the counter if i login with given test account
+** Now What to do?
+- We can bypass this IP blocking by modifiying the payload.
+- Add username payload like 1 time wiener and 1 time peter
+ | wiener |
+ | peter  |
+ | wiener |
+ | peter  |
+- Modify given password with 1 time with correct password of wiener  which is peter
+ | peter    |
+ | 123456   |
+ | peter    |
+ | password |
+ Like this
+- Add maximum concurrent request to 1 in burp intruder Resource pool tab to slow down the request
+- After finishing attack filter out the result by ~302~ http response
+[[./assets/screenshots/lab06-IP-lock-brute-force.png]]
+* Result
+- Found the password for victim user ~carlos~
+- password = ~trustno1~
+/this can be different on every new instance of the lab/
+* Solve the lab
+Enter victim account with credential and solve the lab
+- username = carlos
+- password = trustno1
