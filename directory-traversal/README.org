@@ -1,0 +1,10 @@
+#+title: Directory Traversal
+#+description: Solution of all Directory Traversal Labs from Portswigger
+
+* All Directory Traversal Labs
+- [[./lab1.org][File path traversal, simple case]]
+- [[./lab2.org][File path traversal, traversal sequences blocked with absolute path bypass]]
+- [[./lab3.org][File path traversal, traversal sequences stripped non-recursively]]
+- [[./lab4.org][File path traversal, traversal sequences stripped with superfluous URL-decode]]
+- [[./lab5.org][File path traversal, validation of start of path]]
+- [[./lab6.org][File path traversal, validation of file extension with null byte bypass]]
