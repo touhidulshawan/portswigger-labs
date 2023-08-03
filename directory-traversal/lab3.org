@@ -1,0 +1,25 @@
+#+title: File path traversal, traversal sequences stripped non-recursively
+
+* Table of Contents :toc:
+- [[#lab-contains][Lab Contains]]
+- [[#end-goal][End Goal]]
+- [[#solution][Solution]]
+- [[#payload-to-solve-lab][Payload to Solve lab]]
+
+* Lab Contains
+- vulnerability on display of product images
+- strips path traversal sequences before using it
+* End Goal
+- retrieve the contents of /etc/passwd file
+* Solution
+- Access the lab
+- Open any of product image in new tab and intercept the request in burpsuite
+- Change filename value to ~../../../etc/passwd~
+  - ~400 Bad request~ because it is  striping our traversal sequences
+- Now try with absolute path ~/etc/passwd~
+  - Still now ~400 Bad request~
+- If it strip sequences '../', we can double the sequences like this
+  1. ~....//....//....//etc/passwd~ then it will become after strip ~../../../etc/passwd~
+  2. Awala!! ~200 OK~  response. retrieved the contents of /etc/passwd file
+* Payload to Solve lab
+~....//....//....//etc/passwd~
