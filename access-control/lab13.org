@@ -1,0 +1,30 @@
+#+title: Referer-based access control
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Access Control Labs from Portswigger
+#+date: 2023-08-11 Fri
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+- controls access to certain admin functionality based on the Referer header
+- Admin credentials
+  - username: =administrator=
+  - password: =admin=
+*** Test account
+       - username: =wiener=
+       - password: =peter=
+* End Goal
+- Promote =wiener= to administrator
+* Exploit
+- access the lab
+- login with =administrator= credentials
+- promote =carlos= and sent HTTP request to burp repeater
+- login with =wiener= in private browser
+- go =/admin-roles?username=carlos&action=upgrade=
+- request is treated as *unauthorized* due to absent Referer header
+- copy =wiener= session cookie into the existing burp repeater request, change username to =wiener= and sent it
+- Haa! Lab solved
