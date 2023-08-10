@@ -1,0 +1,37 @@
+#+title: Unprotected admin functionality with unpredictable URL
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Access Control Labs from Portswigger
+#+date: 2023-08-11 Fri
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+- same vulnerabiliy as [[./lab1.org][lab1]]
+- but =admin= page url is in unpredictable location
+- it is not in robots.txt file
+* End Goal
+- access =admin= page and delete user =carlos=
+* Exploit
++ access lab
++ see the source of the homepage
++ the source page is leaking the =admin= panel page location with javascript code
+#+begin_src js
+  var isAdmin = false;
+  if (isAdmin) {
+     var topLinksTag = document.getElementsByClassName("top-links")[0];
+     var adminPanelTag = document.createElement('a');
+     adminPanelTag.setAttribute('href', '/admin-h7hoqs');
+     adminPanelTag.innerText = 'Admin panel';
+     topLinksTag.append(adminPanelTag);
+     var pTag = document.createElement('p');
+     pTag.innerText = '|';
+     topLinksTag.appendChild(pTag);
+  }
+#+end_src
+so the location of =admin= page: =/admin-h7hoqs=
+
++ go to this location to access admin panel and delete user =carlos= to solve the lab
