@@ -1,0 +1,26 @@
+#+title: URL-based access control can be circumvented
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Access Control Labs from Portswigger
+#+date: 2023-08-11 Fri
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+- unauthenticate admin panel at =/admin=
+- block external access to that path
+- =X-Original-URL= header
+* End Goal
+- login to admin panel and delete =carlos= user
+* Exploit
+- access the lab
+- go to =Admin panel= page
+- see front-end is blocking [403: Access denied]
+- send this request to burpsuite and change url from =/admin= to =/=
+- add header =X-Orignal-URL: /invalid= and observe that now it is giving =404= not fount error
+- now add =X-Original-URL: /admin=, now we can access the admin page
+- to delete =carlos= user add this in =/?username=carlos=  with =X-Original-URL: /admin/delete=
+- success!!
