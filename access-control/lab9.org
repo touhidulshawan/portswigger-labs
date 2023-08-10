@@ -1,0 +1,28 @@
+#+title: Insecure direct object references
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Access Control Labs from Portswigger
+#+date: 2023-08-11 Fri
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+- store chat log directly on server's file system
+- retreive them using static urls
+* End Goal
+- find the password for user =carlos=
+- login to =carlos= account
+* Exploit 
+- access the lab
+- go to =Live chat= page
+- chat with the bot
+- click on =view transcript= and intercept this request in burpsuite
+- see that it download transcript text file named as =2.txt=
+- if chat and download the script file it named as =3.txt=
+- so what happen to =1.txt=
+- now change the file value to =1.txt= and send the request
+- we got the conversation of carlos user with bot. and it store password  for =carlos= user
+- now login to =carlos= account
