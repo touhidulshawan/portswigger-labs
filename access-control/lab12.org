@@ -1,0 +1,31 @@
+#+title: Multi-step process with no access control on one step 
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Access Control Labs from Portswigger
+#+date: 2023-08-11 Fri
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+  - [[#steps-to-exploit][Steps to exploit]]
+
+* Lab contain
+- admin panel with flawed multi-step process for changing a user's role.
+*** Admin user crediential
+- username: =administrator=
+- password: =admin=
+* End Goal
+- promote yourself to become an =administrator=
+* Exploit
+*** Test account
+       - username: =wiener=
+       - password: =peter=
+** Steps to exploit
+1. access the lab
+2. login with admin credential and familiarize with admin functionality
+3. upgrade =carlos= user to admin. see that it ask for confirmation before upgrading
+4. intercept this confirmation request in burpsuite
+5. now login with =wiener= account in a incognito or another browser
+6. replace  point 4 request's session cookie with point 5 session cookie and change username to =wiener=
+7. Solved. =wiener= become a Admin user
