@@ -1,0 +1,28 @@
+#+title: User ID controlled by request parameter with password disclosure
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Access Control Labs from Portswigger
+#+date: 2023-08-11 Fri
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+  - [[#steps-to-exploit][Steps to exploit]]
+
+* Lab contain
+- current user's existing password, prefilled in a masked input
+* End Goal
+- get administrator password
+- delete user =carlos=
+* Exploit
+*** Test account
+       - username: =wiener=
+       - password: =peter=
+** Steps to exploit
+- access the lab
+- login with test account
+- go lot my-account page and intercept the request and send it to repeater in burpsuite
+- change the =id= value from =wiener= to =administrator= and see the password input field's value
+- that's the password for =administrator=
+- now login with =administrator= and delete =carlos= account
