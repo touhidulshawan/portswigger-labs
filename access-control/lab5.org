@@ -1,0 +1,29 @@
+#+title: User ID controlled by request parameter 
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Access Control Labs from Portswigger
+#+date: 2023-08-11 Fri
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+  - [[#steps-to-exploit][Steps to exploit]]
+
+* Lab contain
+- horizontal privilege escalation on user account page
+* End Goal
+- obtain API key of user =carlos= and submit it
+* Exploit
+*** Test account
+- username: wiener
+- password: peter
+** Steps to exploit
+- access the lab
+- login with test account
+- observe the parameter of url
+  - =https://0a4000990478beec8108c54300700050.web-security-academy.net/my-account?id=wiener=
+  - something like this
+- Now change the =id= parameter of url to =carlos=
+- Ha! get the api key of =carlos=
+- Submit this api key.
