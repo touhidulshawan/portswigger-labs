@@ -1,0 +1,32 @@
+#+title: Method-based access control can be circumvented 
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Access Control Labs from Portswigger
+#+date: 2023-08-11 Fri
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+- access controls based partly on the =HTTP= method of requests
+- make familiarize with admin panel by logging with these credential
+  - username: =administrator=
+  - password: =admin= 
+*** Test account
+    - username: =wiener=
+    - password: =peter=
+* End Goal
+- login with test account make it a =administrator= user
+* Exploit
+1. access the lab
+2. login with =administrator= observe with application
+3. upgrade the =carlos= user to admin user and intercept this request in burpsuite
+4. now logout from =administrator= account & login with test account
+5. replace point 3 session cookie with session cookie of test logged account
+6. reattempt to upgrade the carlos user [401: unauthorized]
+7. change HTTP method =POST= to =POSTX= and it showing that [ =400=: missing parameter 'username' instead of =401= ]
+8. now change HTTP method to =GET= method
+   1. =GET /admin-roles?username=wiener&action=upgrade=
+   2. =302 Found=  gives wiener user admin privilege
