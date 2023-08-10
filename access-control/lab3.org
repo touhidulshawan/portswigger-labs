@@ -1,0 +1,30 @@
+#+title: User role controlled by request parameter
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Access Control Labs from Portswigger
+#+date: 2023-08-11 Fri
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+  - [[#steps-to-exploit][Steps to exploit]]
+
+* Lab contain
+- =admin= panel at =/admin= location
+- forgeable =cookie= to identify =admin= user
+* End Goal
+- access the =admin= page and delete user =carlos=
+* Exploit
+*** Test Account
+- username: wiener
+- password: peter
+
+** Steps to exploit
+- access the lab
+- login to application with test account
+- explore the cookie of logged in user [use browser inspect console or intercept request on burpsuite]
+  - Has a cookie value called: =Admin= = =false=
+- now change the cookie value of =Admin= false to =true= and reload the page
+- Ha! You have become an admin and got the =admin= panel
+- Go to admin panel and delete the user =carlos= to solve the lab
