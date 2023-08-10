@@ -1,0 +1,31 @@
+#+title: User ID controlled by request parameter, with unpredictable user IDs 
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Access Control Labs from Portswigger
+#+date: 2023-08-11 Fri
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+  - [[#steps-to-exploit][Steps to exploit]]
+
+* Lab contain
+- same as [[./lab5.org][Lab5]] but here user identifies with GUIDs instead of guessable integer value
+* End Goal
+- find the GUID for =carlos= and submit his api key to solve the lab
+* Exploit
+*** Test account
+       - username: =wiener=
+       - password: =peter=
+** Steps to exploit
+- access the lab
+- login with test account and go to =my-account= page
+- observe the url
+  - =/my-account?id=d2a5feca-a3f2-4749-a0cb-feb4f6eb27f9=
+  - here see the id value is not guessable integer value
+- now go to home page and look for a post written by =carlos=
+  - click on =carlos= author. it will give the guid of =carlos= on url
+    - =/blogs?userId=bafc199e-7f6e-4d34-a502-9e15b9e9d45d=
+  - now copy this and go to =my-account= and replace with it =wiener= id value
+  - it will give the api key for =carlos= submit it to solve the lab
