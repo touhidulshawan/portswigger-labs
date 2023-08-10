@@ -1,7 +1,8 @@
 * Solution of all labs from [[https://portswigger.net/web-security/all-labs][Portswigger]]
 
-1. [[./sql-injection][Sql Injection]]
+1. [[./access-control][Access Control]]
 2. [[./authentication][Authentication]]
 3. [[./directory-traversal/][Directory Traversal]]
-4. [[./xss][XSS]]
-5. [[./information-disclosure][Information Disclosure]]
+4. [[./information-disclosure][Information Disclosure]]
+5. [[./sql-injection][Sql Injection]]
+6. [[./xss][XSS]]
