@@ -1,0 +1,19 @@
+#+AUTHOR: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+DESCRIPTION: Access Contrl Labs list from portswigger 
+#+DATE: 2023-08-11 Fri
+#+OPTIONS: toc:2
+
+* TODO Access Control Labs [0/13]
+- [ ] [[./lab1.org][Unprotected admin functionality]]
+- [ ] [[./lab2.org][Unprotected admin functionality with unpredictable URL]]
+- [ ] [[./lab3.org][User role controlled by request parameter]]
+- [ ] [[./lab4.org][User role can be modified in user profile]]
+- [ ] [[./lab5.org][User ID controlled by request parameter ]]
+- [ ] [[./lab6.org][User ID controlled by request parameter, with unpredictable user IDs ]]
+- [ ] [[./lab7.org][User ID controlled by request parameter with data leakage in redirect]]
+- [ ] [[./lab8.org][User ID controlled by request parameter with password disclosure]]
+- [ ] [[./lab9.org][Insecure direct object references]]
+- [ ] [[./lab10.org][URL-based access control can be circumvented]]
+- [ ] [[./lab11.org][Method-based access control can be circumvented]]
+- [ ] [[./lab12.org][Multi-step process with no access control on one step]]
+- [ ] [[./lab13.org][Referer-based access contro]]

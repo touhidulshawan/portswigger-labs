@@ -1,0 +1,19 @@
+#+TITLE: Unprotected admin functionality
+#+AUTHOR: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+DESCRIPTION: Access Control Lab from portswigger 
+#+DATE: 2023-08-11 Fri
+#+OPTIONS: toc:2
+
+* Lab contain
++ unprotected =admin= panel
+* Goal
+- access =admin= panel and delete =carlos= user
+* Exploit
++ access lab
++ read contents of =/robots.txt=  file
++ robots.txt file revels the location of admin page
+#+begin_src 
+User-agent: *
+Disallow: /administrator-panel
+#+end_src
++ go to =/administrator-panel= to access admin panel and delete =carlos= user
