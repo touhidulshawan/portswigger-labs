@@ -1,0 +1,28 @@
+#+title: User ID controlled by request parameter with data leakage in redirect
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Access Control Labs from Portswigger
+#+date: 2023-08-11 Fri
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+  - [[#steps-to-exploit][Steps to exploit]]
+
+* Lab contain
+- sensitive information leak in redirect response
+* End Goal
+- obtain api key for carlos
+* Exploit
+*** Test account
+       - username: =wiener=
+       - password: =peter=
+** Steps to exploit
+- access the lab
+- login with test account
+- go to my-account page and intercept the request in burpsuite send it into repeater
+- change id value =wiener= to =carlos=
+  - see that in redirection body it is leaking the user =carlos= api key
+  - [[./assets/screenshots/2023-08-11-03:17:30-screenshot.png]]
+- copy the api value and submit it
