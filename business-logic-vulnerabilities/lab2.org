@@ -29,4 +29,4 @@
 - Add our target product to cart as normal
 - Now add another product and manipulate with quantity so that =total price= become as low as it can
 - Place order to solve lab
-- [[./assets/screenshots/lab2.png]]
+[[./assets/screenshots/lab2.png]]
