@@ -1,4 +1,4 @@
-* OWASP Top 10 - 2021 [1/10]
+* OWASP Top 10 - 2021 [1/11]
 1. [X] Broken Access Control
 2. [ ] Cryptographic Failures
 3. [ ] Injection
@@ -9,6 +9,7 @@
 8. [ ] Software and Data Integrity Failures
 9. [ ] Security Logging and Monitoring Failures
 10. [ ] Server-Side Request Forgery (SSRF)
+    
 * Solution of all labs from [[https://portswigger.net/web-security/all-labs][Portswigger]]
 
 1. [[./access-control][Access Control]]
