@@ -1,0 +1,32 @@
+#+title: High Level Logic Vulnerabilities
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Bussiness Logic Vulnerabilities Labs from Portswigger
+#+date: 2023-08-20 Sun
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+  - [[#test-account][Test account]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+- Doesn't validate user input
+- Logic flow on purchasing workflow
+** Test account
+       - username: =wiener=
+       - password: =peter=
+* End Goal
+- Buy "Lightweight I33t leather jacket" to solve lab
+* Exploit
+- Access the lab
+- Login with [[#test-account][Test account]]
+- Buy a lowest price product to see purchasing workflow
+- See that there is no way to manipulate the price of the product
+- But there is the =quantity= parameter that we can mess around.
+- Change =quantitiy= value to -10 or any negative number to see what happen
+- Our application is accepting negative quantity value. Notice that =total price= also affacting
+- Add our target product to cart as normal
+- Now add another product and manipulate with quantity so that =total price= become as low as it can
+- Place order to solve lab
+- [[./assets/screenshots/lab2.png]]
