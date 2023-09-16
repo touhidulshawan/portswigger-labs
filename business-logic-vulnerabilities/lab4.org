@@ -1,0 +1,30 @@
+#+title: Flawed enforcement of business logic
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Bussiness Logic Vulnerabilities Labs from Portswigger
+#+date: 2023-09-16 Sat
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+  - [[#test-account][Test account]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
++ Logic flaw on purchasing workflow
+** Test account
+       - username: =wiener=
+       - password: =peter=
+* End Goal
++ Exploit the flaw and buy "Lightweight l33t leather jacket"
+* Exploit
+1. Access the lab
+2. At the top of the application we can see that a coupon code for new customer =NEWCUST5=
+3. Login into our account
+4. On homepage there is a newsletter functionality. Let's test it
+5. Signup for the newsletter. We get a coupon code =SIGNUP30=
+6. Now add our target product into our cart & and apply both cupons on checkout
+7. Apply cupon code twice and see what happens: =Coupon already applied=
+8. Okay!! Let's try to alternate these two coupons code
+9. Success. It bypass the check
+10. Add many times make price as low as possible then buy the product

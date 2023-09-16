@@ -1,0 +1,22 @@
+#+title: Inconsistent Security controls
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Bussiness Logic Vulnerabilities Labs from Portswigger
+#+date: 2023-09-16 Sat
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+- Flaw that allows arbitary users to access administrative functionality
+* End Goal
+- access administrative functionality and delete user =carlos=
+* Exploit
+1. Access the lab
+2. Register a user with give email address [click on Email Client button above]
+3. Go =/admin= page and observe the instruction: =Admin interface only available if logged in as a DontWannaCry user=
+4. Now update email with =dontwannacry= domain: =username@dontwannacry.com=
+5. Success!! Notice that there is admin panel
+6. Go to admin panel and delete =calos= user to solve the lab
