@@ -1,0 +1,20 @@
+#+title: Low-level logic flaw
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Bussiness Logic Vulnerabilities Labs from Portswigger
+#+date: 2023-09-16 Sat
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+  - [[#test-account][Test account]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
++ Logic flaw in item purchasing workflow
+** Test account
+       - username: =wiener=
+       - password: =peter=
+* End Goal
++ Exploit the flaw and buy "Lightweight l33t leather jacket"
+* Exploit
