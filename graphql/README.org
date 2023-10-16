@@ -1,0 +1,12 @@
+#+AUTHOR: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+DESCRIPTION: Graphql API Vulnerabilities lab from portswigger
+#+DATE: 2023-10-16 Mon
+#+OPTIONS: toc:2
+
+* GraphQL API vulnerabilities [1/5]
+1. [X] [[./lab1.org][Accessing private GraphQL posts]]
+2. [ ] [[./lab2.org][Accidental exposure of private GraphQL fields]]
+3. [ ] [[./lab3.org][Finding a hidden GraphQL endpoint]]
+4. [ ] [[./lab4.org][Bypassing GraphQL brute force protections]]
+5. [ ] [[./lab5.org][Performing CSRF exploits over GraphQL]]
+

