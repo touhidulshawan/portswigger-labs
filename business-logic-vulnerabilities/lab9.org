@@ -24,7 +24,7 @@
 - change to a role and observer the request on burp
   - this send a =POST= request to =/role-selector=
   - send this request to repeater and change role to =admin= and send this
-    - it give ="No login credentials provided"= this error
+    - it give =No login credentials provided= this error
 - log out the and turn on intercept on burp to see if we can change the role on login through intercept
 - Forward =POST/login= request and drop the next request =GET /role-selector=. Go to browser and go to home page see that you have now =admin= access. Beacause of drop the request it defaulted role to =administrator=
 - Go to =admin= panel and delete =carlos= to solve the lab
