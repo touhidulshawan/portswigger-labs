@@ -1,0 +1,38 @@
+#+title: Inconsistent handling of exceptional input
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Business Logic Vulnerabilities Labs from Portswigger
+#+date: 2023-10-29 Sun
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+  - [[#examine-the-email-client][Examine the email client]]
+  - [[#exploit-1][Exploit]]
+
+* Lab contain
+- Lack of validation on user input.
+- Logic flaw on account registration process
+* End Goal
+- Access admin panel and delete user =carlos= to solve the lab
+* Exploit
+- Access the lab
+- Go Register page
+- Click on Email Client (on top of page) to get your email to register an account
+- Notes this text =If you work for DontWannaCry, please use your @dontwannacry.com email address=
+- Now fill-up the registration form to create an account
+- Active the created account. After verfication login into your account
+- Go to =/admin= page to see if we can access =admin= privilege. No luck it shows that =Admin interface only available if logged in as a DontWannaCry user=
+- So somehow we have update our email address to =@dontwannacry.com= domain
+** Examine the email client 
+- Notice that it showing =Displaying all emails @exploit-0a52000d033b0ad6878101c001270004.exploit-server.net and all subdomains=
+- Now go to registration page and create an account with very long (200) character email address
+  - Like =veryverylong@=@exploit-0a52000d033b0ad6878101c001270004.exploit-server.net=
+- Verify and login into account see that on account page long email address has truncated to 255 character
+** Exploit 
+- Go to registration page and create an account but this time include =@dontwannacry.com=
+  - =veryverylong@dontwannacry.com.exploit-0a52000d033b0ad6878101c001270004.exploit-server.net=
+  - choose charecter wisely so that it truncate all character after 'm'
+- After verify and login see that you have access to admin panel
+- Delete user =carlos= from admin panel to solve the lab

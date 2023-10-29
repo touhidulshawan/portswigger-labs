@@ -3,13 +3,13 @@
 #+DATE: 2023-08-20 Sun
 #+OPTIONS: toc:2
 
-* TODO Business Logic Vulnerabilities Labs [4/11]
+* TODO Business Logic Vulnerabilities Labs [6/11]
 1. [X] [[./lab1.org][Excessive trust in client-side controls]]
 2. [X] [[./lab2.org][High-level logic vulnerability]]
 3. [X] [[./lab3.org][Inconsistent security controls]]
 4. [X] [[./lab4.org][Flawed enforcement of business rules]]
-5. [ ] [[./lab5.org][Low-level logic flaw]]
-6. [ ] [[./lab6.org][Inconsistent handling of exceptional input]]
+5. [X] [[./lab5.org][Low-level logic flaw]]
+6. [X] [[./lab6.org][Inconsistent handling of exceptional input]]
 7. [ ] [[./lab7.org][Weak isolation on dual-use endpoint]]
 8. [ ] [[./lab8.org][Insufficient workflow validation]]
 9. [ ] [[./lab9.org][Authentication bypass via flawed state machine]]
