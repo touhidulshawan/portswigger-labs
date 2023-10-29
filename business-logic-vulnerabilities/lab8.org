@@ -1,0 +1,28 @@
+#+title: Insufficient workflow validation
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Business Logic Vulnerabilities Labs from Portswigger
+#+date: 2023-10-29 Sun
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+  - [[#test-account][Test account]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+- Flawed assumptions about the sequence of events in the purchasing workflow
+** Test account
+- username: =wiener=
+- password: =peter=
+* End Goal
+- Exploit the flaw and buy =Lightweight l33t leather jacket= to solve the lab
+* Exploit
+- access the lab
+- login with [[#test-account][test account]] credential
+- buy a small price product to understand the payment flow
+  - it send a =POST= request to =/cart/checkout= and redirects to page =/cart/order-confirmation?order-confirmed=true=
+- now send this request =/cart/order-confirmation?order-confirmed=true=  to reapeter
+- add =target jacket= to basket
+- and send the request from repeater =/cart/order-confirmation?order-confirmed=true=. See that it checkout the product. And solve the lab
+    
