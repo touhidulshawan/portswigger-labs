@@ -46,7 +46,7 @@ Sec-Fetch-Site: same-origin
 Sec-Fetch-User: ?1
 Te: trailers
 
-productId=1&redir=PRODUCT&quantity=§99§ 
+productId=1&redir=PRODUCT&quantity=99
 #+end_src
 Start attack with =Null payloads= and from payload settings select =Continue indefinitely=
 - Go to cart page and refresh time to time to see the changes
