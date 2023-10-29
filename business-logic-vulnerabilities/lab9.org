@@ -1,0 +1,31 @@
+#+title: Authentication bypass via flawed state machine
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Business Logic Vulnerabilities Labs from Portswigger
+#+date: 2023-10-29 Sun
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+  - [[#test-account][Test account]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+- Flawed assumptions about the sequence of events in the login process
+** Test account
+- username: =wiener=
+- password: =peter=
+* End Goal
+- Bypass lab's authentcation, access the admin interface and delete user =carlos=
+* Exploit
+- access the lab
+- login with [[#test-account][test account's]] credential
+- in account page there is a feature to change user role
+- change to a role and observer the request on burp
+  - this send a =POST= request to =/role-selector=
+  - send this request to repeater and change role to =admin= and send this
+    - it give ="No login credentials provided"= this error
+- log out the and turn on intercept on burp to see if we can change the role on login through intercept
+- Forward =POST/login= request and drop the next request =GET /role-selector=. Go to browser and go to home page see that you have now =admin= access. Beacause of drop the request it defaulted role to =administrator=
+- Go to =admin= panel and delete =carlos= to solve the lab
+    
