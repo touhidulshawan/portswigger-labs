@@ -14,9 +14,10 @@
 
 1. [[./access-control][Access Control]]
 2. [[./authentication][Authentication]]
-3. [[./directory-traversal/][Directory Traversal]]
-4. [[./information-disclosure][Information Disclosure]]
-5. [[./graphql][Graphql API Vulnerabilities]]
-6. [[./sql-injection][Sql Injection]]
-7. [[./xss][XSS]]
+3. [[./business-logic-vulnerabilities/][Bussiness Logic Vulnerabilities]]
+4. [[./directory-traversal/][Directory Traversal]]
+5. [[./information-disclosure][Information Disclosure]]
+6. [[./graphql][Graphql API Vulnerabilities]]
+7. [[./sql-injection][Sql Injection]]
+8. [[./xss][XSS]]
 
