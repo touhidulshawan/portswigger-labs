@@ -1,0 +1,22 @@
+#+title: Authentication bypass via encryption oracle
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: Business Logic Vulnerabilities Labs from Portswigger
+#+date: 2023-10-30 Mon
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+  - [[#test-account][Test account]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+- Logic flaw that expose an encryption oracle to users
+** Test account
+- username: =wiener=
+- password: =peter=
+
+* End Goal
+- Access admin panel and delete user =carlos= to solve the lab
+* Exploit
+Solution from portswigger [[https://portswigger.net/web-security/logic-flaws/examples/lab-logic-flaws-authentication-bypass-via-encryption-oracle][Here]]
