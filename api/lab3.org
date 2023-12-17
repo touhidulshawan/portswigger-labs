@@ -1,0 +1,53 @@
+#+title: Finding and exploiting an unused API endpoint
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: API Pentesting Labs from Portswigger
+#+date: 2023-12-18 Mon
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+  - [[#test-account][Test Account]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+** Test Account
+- username: =wiener=
+- password: =peter=
+* End Goal
++ Exploit an hidden API endpoint
++ Buy =Lightweight l33t Leather Jacket= to solve the lab
+* Exploit
++ Access the lab
++ Login with test account
++ Go to =/api= endpoint but it gives =not found= error
++ Click every link to get every single endpoint
++ Add target product or any other product to cart.
++ Now we can see a endpoint =GET /api/products/1/price=  It return this json
+#+begin_src json
+{"price":"$1337.00","message":"11 people have viewed this item in the last 1h"}
+#+end_src
++ Send this request to Repeater
++ Change request method to =POST=, =PUT=, =PATCH=, =OPTIONS=, =DELETE= and see how it response
++ Most of them gives =405 Method not allowed= error except =GET=, =PATCH= method
++ Now send the request with =PATCH= method
+#+begin_src html
+PATCH /api/products/1/price 
+#+end_src
+This give this response
+#+begin_src json
+ {"type":"ClientError","code":400,"error":"Only 'application/json' Content-Type is supported"} 
+#+end_src
+Now add =Content-Type= in the request to update the target product price. Make price 0 so that we can buy the product
+#+begin_src html
+  PATCH /api/products/1/price 
+  Content-Type: application/json
+
+  {"price": 0}
+#+end_src
+
+=200 OK= The price has been updated
++ Now clear cart and add the target jacket product and checkout to buy the product & solve the lab
+
+
+

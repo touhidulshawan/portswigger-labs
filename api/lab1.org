@@ -35,9 +35,9 @@ PATCH /api/user/wiener
 
 | Method | Endpoint                | Parameters        | Response     |
 |--------+-------------------------+-------------------+--------------|
-| GET    | //user/[username: String] | {}                | 200 OK, User |
-| DELETE | //user/[username: String] | {}                | 200 OK, User |
-| PATCH  | //user/[username: String] | {"email": String} | 200 OK, User |
+| GET    | /user/[username: String]  | {}                | 200 OK, User |
+| DELETE | /user/[username: String]  | {}                | 200 OK, User |
+| PATCH  | /user/[username: String]  | {"email": String} | 200 OK, User |
  
 + Now we can use =DELETE= method with this api endpoint =/api/user/carlos= to delete user =carlos=
 
