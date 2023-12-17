@@ -1,0 +1,6 @@
+* API Testing Labs [0/5]
+1. [ ] [[file:lab1.org][Exploiting an API endpoint using documentation]]
+2. [ ] [[file:lab2.org][Exploiting server-side parameter pollution in a query string]]
+3. [ ] [[file:lab3.org][Finding an exploiting an unused API endpoint]]
+4. [ ] [[file:lab4.org][Exploiting a mass assignment vulnerability]]
+5. [ ] [[file:lab5.org][Exploiting server-side paramter pollution in a REST URL]]

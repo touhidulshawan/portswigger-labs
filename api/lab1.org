@@ -1,0 +1,49 @@
+#+title: Exploiting an API endpoint using documentation
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: API Pentesting Labs from Portswigger
+#+date: 2023-12-18 Mon
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+  - [[#test-account][Test account]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+- A web application
+** Test account
+- username: =wiener=
+- password: =peter=
+* End Goal
++ Find exposed =API Documentation=
++ =Delete= user =carlos=
+* Exploit
++ Start Burpsuite
++ Access the lab
++ Login with test account
++ Observe the HTTP history on burpsuite to find out =api= endpoints
++ There is an =email update= feature, let's use this to update the email address of user =wiener=
++ It send this request
+#+begin_src 
+PATCH /api/user/wiener
+
+{"email":"updatedemail@mail.com"}
+#+end_src
++ Now let's go to =/api= endpoint
++ We can see that it has only 3 endpoints
+
+| Method | Endpoint                | Parameters        | Response     |
+|--------+-------------------------+-------------------+--------------|
+| GET    | //user/[username: String] | {}                | 200 OK, User |
+| DELETE | //user/[username: String] | {}                | 200 OK, User |
+| PATCH  | //user/[username: String] | {"email": String} | 200 OK, User |
+ 
++ Now we can use =DELETE= method with this api endpoint =/api/user/carlos= to delete user =carlos=
+
+Send this request
+#+begin_src 
+DELETE /api/user/carlos  
+#+end_src
+This will delete user =carlos= and the lab will be solved.
+ 
