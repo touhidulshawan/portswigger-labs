@@ -25,11 +25,11 @@
 + Now observe these flow from http histroy in burpsuite
 + We found a api point with two http method
 
-#+begin_src html
+#+begin_src json
 GET /api/checkout 
 #+end_src
 It gives the checkout product information
-#+begin_src html
+#+begin_src json
 HTTP/2 200 OK
 Content-Type: application/json; charset=utf-8
 X-Content-Type-Options: nosniff
@@ -41,7 +41,7 @@ Content-Length: 153
 
 And a =POST= request
 
-#+begin_src html
+#+begin_src json
 POST /api/checkout HTTP/2
 
 {"chosen_products":[{"product_id":"1","quantity":1}]} 
@@ -49,7 +49,7 @@ POST /api/checkout HTTP/2
 
 This request checkout the product. Send this request to repeater. Add =chosen_discount= property that we can see from the =GET= request. We will change =percentage= for =chosen_discount= to 100 so that we get 100% discount means we can buy the product absolutely free.
 
-#+begin_src html
+#+begin_src json
   POST /api/checkout HTTP/2  
   
   {
